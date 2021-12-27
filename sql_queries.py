@@ -1,7 +1,7 @@
 # DROP TABLES
-music_library_drop = "drop table IF EXISTS music_library"
-music_library_1_drop = "drop table IF EXISTS music_library1"
-music_library_2_drop = "drop table IF EXISTS music_library2"
+artists_songs_length_by_session_drop = "drop table IF EXISTS artists_songs_length_by_session"
+artists_songs_users_by_userId_session_drop = "drop table IF EXISTS artists_songs_users_by_userId_session"
+users_per_song_drop = "drop table IF EXISTS users_per_song"
 
 # CREATE KEYSPACE
 create_keyspace = """
@@ -10,28 +10,29 @@ create_keyspace = """
     { 'class' : 'SimpleStrategy', 'replication_factor' : 1 }"""
 
 # CREATE TABLES
-music_library_create = """CREATE TABLE IF NOT EXISTS music_library (artist text,
-                    song text,
-                    length float,
+artists_songs_length_by_session_create = """CREATE TABLE IF NOT EXISTS artists_songs_length_by_session (sessionId int,
                     itemInSession int,
-                    sessionId int,
+                    artist text,
+                    song text,
+                    length float,                    
                     PRIMARY KEY (sessionId, itemInsession))""" 
-music_library_1_create = """CREATE TABLE IF NOT EXISTS music_library1(artist text,
-                    song text,
-                    user text,
-                    itemInSession int,
-                    userId int,
+artists_songs_users_by_userId_session_create = """CREATE TABLE IF NOT EXISTS artists_songs_users_by_userId_session(userId int,
                     sessionId int,
+                    itemInSession int,
+                    artist text,
+                    song text,
+                    user text,    
                     PRIMARY KEY ((userId, sessionId),itemInSession))"""
-music_library_2_create = """CREATE TABLE IF NOT EXISTS music_library2(song text,
+users_per_song_create = """CREATE TABLE IF NOT EXISTS users_per_song(song text,
+                    userId int,
                     user text,
-                    PRIMARY KEY (song))"""
+                    PRIMARY KEY (song,userId))"""
 # INSERT RECORDS
-music_library_insert = "INSERT INTO music_library (artist, song, length, itemInSession, sessionId) VALUES (%s, %s, %s, %s, %s)"
-music_library_1_insert = "INSERT INTO music_library1 (artist, song, user, itemInSession, userId, sessionId)  VALUES (%s, %s, %s, %s, %s, %s)"
-music_library_2_insert = "INSERT INTO music_library2 (song, user) VALUES (%s, %s)"
+artists_songs_length_by_session_insert = "INSERT INTO artists_songs_length_by_session (sessionId,itemInSession,artist, song, length) VALUES (%s, %s, %s, %s, %s)"
+artists_songs_users_by_userId_session_insert = "INSERT INTO artists_songs_users_by_userId_session (userId, sessionId,itemInSession, artist, song, user)  VALUES (%s, %s, %s, %s, %s, %s)"
+users_per_song_insert = "INSERT INTO users_per_song (song, userId,user) VALUES (%s, %s,%s)"
 
 # FIND RECORDS
-music_library_select = "select * from music_library WHERE sessionId = 338 and itemInSession = 4"
-music_library_1_select = "select * from music_library1 WHERE userId = 10 and sessionId = 182"
-music_library_2_select = "select * from music_library2 WHERE song = 'All Hands Against His Own'"
+artists_songs_length_by_session_select = "select artist,song,length from artists_songs_length_by_session WHERE sessionId = 338 and itemInSession = 4"
+artists_songs_users_by_userId_session_select = "select artist,song,user from artists_songs_users_by_userId_session WHERE userId = 10 and sessionId = 182"
+users_per_song_select = "select user from users_per_song WHERE song = 'All Hands Against His Own'"

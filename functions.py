@@ -81,8 +81,8 @@ def runQueryParameters(session, query,queryParameters):
         session.execute(query,queryParameters)
     except Exception as e:
         print(e)
-def insertIntoMusicLibrary(session, query):
-    """ Inserts records in music library """
+def insertIntoArtistsSongsLengthBySession(session, query):
+    """ Inserts records in table artists_songs_length_by_session """
     # Set up the CSV file.
     file = 'event_datafile_new.csv'
     with open(file, encoding = 'utf8') as f:
@@ -92,9 +92,9 @@ def insertIntoMusicLibrary(session, query):
         for line in csvreader:
             ## Assign the INSERT statements into the `query` variable
             ## Assign which column element should be assigned for each column in the INSERT statement.
-            runQueryParameters(session, query,(line[0],line[-2],float(line[5]),int(line[3]),int(line[-3])))
-def insertIntoMusicLibrary1(session,query):
-    """ Inserts records in music library 1 """
+            runQueryParameters(session, query,(int(line[-3]),int(line[3]),line[0],line[-2],float(line[5])))
+def insertIntoArtistsSongsUsersByUserIdSession(session,query):
+    """ Inserts records in table artists_songs_users_by_userId_session """
     # Set up the CSV file.
     file = 'event_datafile_new.csv'
     with open(file, encoding = 'utf8') as f:
@@ -104,9 +104,9 @@ def insertIntoMusicLibrary1(session,query):
         for line in csvreader:
             ## Assign the INSERT statements into the `query` variable
             # Assign which column element should be assigned for each column in the INSERT statement.
-            runQueryParameters(session, query, (line[0],line[-2],line[1]+line[4],int(line[3]),int(line[-1]),int(line[-3])))
-def insertIntoMusicLibrary2(session,query):
-    """ Inserts records in music library 1 """
+            runQueryParameters(session, query, (int(line[-1]),int(line[-3]),int(line[3]),line[0],line[-2],line[1]+line[4]))
+def insertIntoUsersPerSong(session,query):
+    """ Inserts records in table users_per_song"""
     # Set up the CSV file.
     file = 'event_datafile_new.csv'
     with open(file, encoding = 'utf8') as f:
@@ -116,4 +116,4 @@ def insertIntoMusicLibrary2(session,query):
         for line in csvreader:
             ## Assign the INSERT statements into the `query` variable
             ## Assign which column element should be assigned for each column in the INSERT statement.
-            runQueryParameters(session,query, (line[-2],line[1]+line[4]))
+            runQueryParameters(session,query, (line[-2],int(line[-1]),line[1]+line[4]))
